@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.ComponentModel.DataAnnotations;
 
 namespace TaskScheduler.Models
 {
-    public class Task
+    public class Goal
     {
         public int Id { get; set; }
         [Display(Name = "Название")]
@@ -15,18 +13,23 @@ namespace TaskScheduler.Models
         [Display(Name = "Описание")]
         public string Description { get; set; }
 
-        public int Priority { get; set; }
+        public string Level { get; set; }
 
         [Display(Name = "Дата создания")]
         public DateTime CreationDate { get; set; }
 
-        [Display(Name = "Дата окончания")]
         public DateTime ExpirationDate { get; set; }
 
-        [Display(Name = "Статус")]
-        public string Status { get; set; }
+        public int Progress { get; set; }
 
         public string UserId { get; set; }
         public ApplicationUser User { get; set; }
+
+        public virtual ICollection<GoalAction> Actions { get; set; }
+
+        public Goal()
+        {
+            Actions = new List<GoalAction>();
+        }
     }
 }

@@ -193,8 +193,19 @@
     <Compile Include="Migrations\201803011711103_TaskMigration.Designer.cs">
       <DependentUpon>201803011711103_TaskMigration.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201803051901436_GoalAndProjectMigration.cs" />
+    <Compile Include="Migrations\201803051901436_GoalAndProjectMigration.Designer.cs">
+      <DependentUpon>201803051901436_GoalAndProjectMigration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201803052027268_GoalAndProjectMigration2.cs" />
+    <Compile Include="Migrations\201803052027268_GoalAndProjectMigration2.Designer.cs">
+      <DependentUpon>201803052027268_GoalAndProjectMigration2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\Goal.cs" />
+    <Compile Include="Models\GoalAction.cs" />
     <Compile Include="Models\Models.cs" />
+    <Compile Include="Models\Project.cs" />
     <Compile Include="Models\Task.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\UserManager.cs" />
@@ -249,6 +260,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Repository\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -269,6 +281,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201803011711103_TaskMigration.resx">
       <DependentUpon>201803011711103_TaskMigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201803051901436_GoalAndProjectMigration.resx">
+      <DependentUpon>201803051901436_GoalAndProjectMigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201803052027268_GoalAndProjectMigration2.resx">
+      <DependentUpon>201803052027268_GoalAndProjectMigration2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
