@@ -1,0 +1,31 @@
+﻿@model  TaskScheduler.ViewModel.ChangeModel
+@{
+    ViewBag.Title = "Личный кабинет";
+}
+
+<div class="container">
+    <h2>Личный кабинет</h2>
+    @using (Html.BeginForm(FormMethod.Post)) {
+        <dl class="dl-horizontal">
+            @Html.ValidationSummary(true, "",htmlAttributes: new { @class = "text-danger"})
+            <dt>Изменить почту:</dt>
+            <dd>
+                @Html.EditorFor(model => model.Email)
+            </dd>
+            <dt>Изменить пароль:</dt>
+            <dd>
+                @Html.EditorFor(model => model.Password)
+                @Html.ValidationMessageFor(model => model.Password)
+            </dd>
+            <dt>Повторите пароль:</dt>
+            <dd>
+                @Html.EditorFor(model => model.PasswordConfirm)
+                @Html.ValidationMessageFor(model => model.PasswordConfirm)
+            </dd>
+            <dt></dt>
+            <dd>
+                <input type="submit" class="btn btn-default" value="Save"/>
+            </dd>
+        </dl>
+    }
+</div>
