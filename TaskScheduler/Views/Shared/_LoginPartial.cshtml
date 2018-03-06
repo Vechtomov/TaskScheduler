@@ -4,13 +4,13 @@
         <ul class="nav navbar-nav navbar-right">
             <li>@Html.ActionLink(User.Identity.GetUserName(), "Index", "Manage")</li>
             @*<li><a href="javascript: document.GetElementById('logout').submit()">Log off</a></li>*@
-            <li>@Html.ActionLink("Выход", "Logout", "Account")</li>
+            <li>@Html.ActionLink("Выход", "Logout", "Account", new { returnUrl = Request.Url}, null)</li>
         </ul>
     //}
 }
 else {
         <ul class="nav navbar-nav navbar-right">
             <li>@Html.ActionLink("Регистрация", "Register", "Account")</li>
-            <li>@Html.ActionLink("Вход", "Login", "Account")</li>
+            <li>@Html.ActionLink("Вход", "Login", "Account", new { returnUrl = Request.Url }, null)</li>
         </ul>
 }

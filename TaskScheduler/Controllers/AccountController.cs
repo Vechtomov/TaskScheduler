@@ -82,15 +82,16 @@ namespace AspNetIdentityApp.Controllers
             ViewBag.returnUrl = returnUrl;
             return View(model);
         }
-        public ActionResult Logout()
+
+        
+        public ActionResult Logout(string returnUrl)
         {
             AuthenticationManager.SignOut();
-            return RedirectToAction("Login");
-        }
 
-        public ActionResult GetLogin()
-        {
-            return PartialView();
+            if (string.IsNullOrEmpty(returnUrl))
+                return RedirectToAction("Index", "Home");
+
+            return Redirect(returnUrl);
         }
     }
 }
