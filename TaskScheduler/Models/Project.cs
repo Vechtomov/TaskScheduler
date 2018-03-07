@@ -15,7 +15,7 @@ namespace TaskScheduler.Models
         public string Description { get; set; }
 
         [Display(Name = "Дата создания")]
-        public DateTime CreationDate { get; set; }
+        public DateTime? CreationDate { get; set; }
 
         public virtual ICollection<ApplicationUser> Participants { get; set; }
         public Project()

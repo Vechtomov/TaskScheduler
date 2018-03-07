@@ -16,11 +16,11 @@ namespace TaskScheduler.Models
         public string Level { get; set; }
 
         [Display(Name = "Дата создания")]
-        public DateTime CreationDate { get; set; }
+        public DateTime? CreationDate { get; set; }
 
-        public DateTime ExpirationDate { get; set; }
+        public DateTime? ExpirationDate { get; set; }
 
-        public int Progress { get; set; }
+        public int? Progress { get; set; }
 
         public string UserId { get; set; }
         public ApplicationUser User { get; set; }

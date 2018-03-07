@@ -1,4 +1,4 @@
-﻿using Ninject;
+﻿//using Ninject;
 using System.Data.Entity;
 using System.Linq;
 using TaskScheduler.Models;

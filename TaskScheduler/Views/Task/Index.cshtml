@@ -1,7 +1,88 @@
-﻿
+﻿@using TaskScheduler.Models
+@model List<Task>
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Задачи";
 }
 
-<h2>Task</h2>
+<h1>Мои Задачи</h1>
 
+<div class="row">
+        <div id="deleteModal" class="modal fade">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title">Удаление задачи</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Вы действительно хотите удалить задачу?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Нет</button>
+                        <button type="button" class="btn btn-primary">Да</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-offset-1 col-md-8">
+        @foreach (var task in Model) {
+        <div class="row task">
+            <div class="taskName col-md-2">
+                <p>@task.Name</p>
+            </div>
+
+            <div class="taskDescription class="col-md-2"">
+                <p>@task.Description</p>
+            </div>
+
+            <div class="taskDate class="col-md-2"">
+                <p>@task.ExpirationDate</p>
+            </div>
+
+            <div class="taskStatus class="col-md-2"">
+                <p>@task.Status</p>
+            </div>
+
+            <div class="taskEdit class="col-md-2"">
+                <a id="@task.Id" href="#">Редактировать</a>
+            </div>
+
+            <div class="taskDelete class="col-md-2"">
+                <a id="@task.Id" href="#">Удалить</a>
+            </div>
+        </div>
+        }
+
+        @Html.ActionLink("Добавить задачу", "Create", null, new { @class = "btn btn-primary" })
+    </div>
+</div>
+
+@section scripts{
+    <script>
+        $(document).ready(function(){
+            $(".taskDelete a").click(function () {
+                var id = +$(this).id;
+
+                $("#deleteModal").modal('show');
+
+                $(".modal-footer .btn-primary").click(function () {
+                    $.ajax({
+                        url: "@Url.Action("Delete")",
+                        data: {
+                            taskId: id
+                        },
+                        type: 'POST',
+                        success: function (data) {
+
+                        }
+                    });
+                    $("#deleteModal").modal('hide');
+                });
+            });
+        });
+    </script>    
+}

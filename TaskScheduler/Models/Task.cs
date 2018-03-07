@@ -15,13 +15,13 @@ namespace TaskScheduler.Models
         [Display(Name = "Описание")]
         public string Description { get; set; }
 
-        public int Priority { get; set; }
+        public int? Priority { get; set; }
 
         [Display(Name = "Дата создания")]
-        public DateTime CreationDate { get; set; }
+        public DateTime? CreationDate { get; set; }
 
         [Display(Name = "Дата окончания")]
-        public DateTime ExpirationDate { get; set; }
+        public DateTime? ExpirationDate { get; set; }
 
         [Display(Name = "Статус")]
         public string Status { get; set; }
