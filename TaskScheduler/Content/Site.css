@@ -25,4 +25,10 @@ textarea {
 
 h1 {
     text-align: center;
+    margin-bottom: 20px;
+}
+
+footer {
+    clear: both;
+    height: 60px;
 }

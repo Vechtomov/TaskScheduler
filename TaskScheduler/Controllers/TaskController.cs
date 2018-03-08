@@ -42,7 +42,7 @@ namespace TaskScheduler.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public ActionResult Create(Task task)
         {
             if (!ModelState.IsValid) {
@@ -60,17 +60,17 @@ namespace TaskScheduler.Controllers
         }
 
         [HttpPost]
-        public string Delete(int? taskId)
+        public string Delete(int? taskid)
         {
-            if(taskId == null) {
+            if(taskid == null) {
                 return "taskId is null";
             }
 
-            if (!repository.RemoveTask(taskId.Value)) {
-                return "Не удалось удалить задачу";
+            if (!repository.RemoveTask(taskid.Value)) {
+                return "fail";
             }
 
-            return "Задача удалена";
+            return "success";
         }
     }
 }

@@ -2,87 +2,158 @@
 @model List<Task>
 @{
     ViewBag.Title = "Задачи";
+    string time = string.Empty;
+    string date = string.Empty;
 }
+<style>
+    .vcenter {
+        display: inline-block;
+        vertical-align: middle;
+        float: none;
+    }
 
+    #sortable {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    span.glyphicon {
+        font-size: 24px;
+    }
+
+    .taskName, .taskStatus, .taskDate {
+        font-size: 24px;
+    }
+
+    .taskStatus {
+        padding-right: 0;
+        margin-right: -15px;
+    }
+
+    .task, .editDelete {
+        padding: 0;
+    }
+
+    .editDelete a{
+        margin-left: 5px;
+        margin-right: 5px;
+        color: black;
+    }
+
+    /*.taskEdit, .taskDelete {
+        font-size: 2em;
+    }*/
+
+    .panel-body {
+        padding: 5px;
+    }
+
+    .task p {
+        margin: 0;
+    }
+
+    .move:hover {
+        cursor: pointer;
+    }
+</style>
 <h1>Мои Задачи</h1>
 
-<div class="row">
-        <div id="deleteModal" class="modal fade">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                        <h4 class="modal-title">Удаление задачи</h4>
-                    </div>
-                    <div class="modal-body">
-                        <p>Вы действительно хотите удалить задачу?</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Нет</button>
-                        <button type="button" class="btn btn-primary">Да</button>
-                    </div>
-                </div>
+<div id="deleteModal" class="modal fade">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">Удаление задачи</h4>
+            </div>
+            <div class="modal-body">
+                <p>Вы действительно хотите удалить задачу?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Нет</button>
+                <button type="button" class="btn btn-primary">Да</button>
             </div>
         </div>
     </div>
+</div>
 
-    <div class="col-md-offset-1 col-md-8">
-        @foreach (var task in Model) {
-        <div class="row task">
-            <div class="taskName col-md-2">
-                <p>@task.Name</p>
-            </div>
+<div class="row">
+    <div class="col-md-offset-1 col-md-10">
+        <ul id="sortable">
+            @foreach (var task in Model) {
+                if (task.ExpirationDate.HasValue) {
+                    time = task.ExpirationDate.Value.ToShortTimeString();
+                    date = task.ExpirationDate.Value.ToShortDateString();
+                }
+                else {
+                    time = string.Empty;
+                    date = string.Empty;
+                }
 
-            <div class="taskDescription class="col-md-2"">
-                <p>@task.Description</p>
-            </div>
+                <li class="ui-state-default">
+                    <div class="row panel panel-default">
+                        <div class="panel-body">
 
-            <div class="taskDate class="col-md-2"">
-                <p>@task.ExpirationDate</p>
-            </div>
+                            <div class="col-md-1 text-center vcenter move">
+                                <span class="glyphicon glyphicon-th-list"></span>
+                            </div>
 
-            <div class="taskStatus class="col-md-2"">
-                <p>@task.Status</p>
-            </div>
+                            <div class="row task col-md-11 vcenter">
 
-            <div class="taskEdit class="col-md-2"">
-                <a id="@task.Id" href="#">Редактировать</a>
-            </div>
+                                <div class="taskName col-md-2 vcenter">
+                                    <p class="text-center">@task.Name</p>
+                                </div>
 
-            <div class="taskDelete class="col-md-2"">
-                <a id="@task.Id" href="#">Удалить</a>
-            </div>
-        </div>
-        }
+                                <div class="taskDescription col-md-4 vcenter">
+                                    <p>
+                                        @task.Description
+                                    </p>
+                                </div>
+
+                                <div class="taskDate col-md-3 vcenter">
+                                    <p>
+                                        <span class="glyphicon glyphicon-time"></span> <span>@time</span><br />
+                                        <span class="glyphicon glyphicon-calendar"></span> <span>@date</span><br />
+                                    </p>
+                                </div>
+                                <div class="taskStatus col-md-3 row vcenter">
+                                    <div class="col-md-7">
+                                        <p>
+                                            @task.Status
+                                        </p>
+                                    </div>
+                                    <div class="editDelete col-md-5">
+                                        <a href="#" class="text-center"><span class="taskEdit glyphicon glyphicon-pencil" data-taskId="@task.Id"></span></a>
+                                        <a href="#" class="text-center"><span class="taskDelete glyphicon glyphicon-remove" data-taskId="@task.Id"></span></a>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </li>
+            }
+        </ul>
 
         @Html.ActionLink("Добавить задачу", "Create", null, new { @class = "btn btn-primary" })
     </div>
 </div>
 
 @section scripts{
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    @Scripts.Render("~/Scripts/deleteTask.js")
     <script>
-        $(document).ready(function(){
-            $(".taskDelete a").click(function () {
-                var id = +$(this).id;
-
-                $("#deleteModal").modal('show');
-
-                $(".modal-footer .btn-primary").click(function () {
-                    $.ajax({
-                        url: "@Url.Action("Delete")",
-                        data: {
-                            taskId: id
-                        },
-                        type: 'POST',
-                        success: function (data) {
-
-                        }
-                    });
-                    $("#deleteModal").modal('hide');
-                });
-            });
+        $(function () {
+            $("#sortable").sortable(
+                {
+                    cancel: '.task',
+                    cursor: 'move'
+                }
+            );
+            $("#sortable").disableSelection();
         });
-    </script>    
+    </script>
 }
