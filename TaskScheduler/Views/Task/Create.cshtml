@@ -6,7 +6,7 @@
 
 <div class="row">
     @using (Html.BeginForm("Create", "Task", FormMethod.Post, new { @class = "form-horizontal" })) {
-    @*@Html.AntiForgeryToken()*@
+    @Html.AntiForgeryToken()
     <h4>Создание новой задачи</h4>
     <hr />
     @Html.ValidationSummary()

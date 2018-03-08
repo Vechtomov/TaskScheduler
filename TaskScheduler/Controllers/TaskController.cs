@@ -42,35 +42,49 @@ namespace TaskScheduler.Controllers
         }
 
         [HttpPost]
-        //[ValidateAntiForgeryToken]
-        public ActionResult Create(Task task)
+        [ValidateAntiForgeryToken]
+        public string Create(Task task)
         {
             if (!ModelState.IsValid) {
-                return PartialView(task);
+                return "Task is not valid";
             }
 
             task.UserId = User.Identity.GetUserId();
 
             if (!repository.CreateTask(task)) {
-                ModelState.AddModelError("", "Задача не была создана");
-                return View(task);
+                return "Creation error";
             }
 
-            return RedirectToAction("Index");
+            return "Success";
         }
 
         [HttpPost]
-        public string Delete(int? taskid)
+        [ValidateAntiForgeryToken]
+        public string Edit(Task task)
         {
-            if(taskid == null) {
-                return "taskId is null";
+            if (task == null) {
+                return "Task is null";
             }
 
-            if (!repository.RemoveTask(taskid.Value)) {
-                return "fail";
+            if (!repository.UpdateTask(task)) {
+                return "Update error";
             }
 
-            return "success";
+            return "Success";
+        }
+
+        [HttpPost]
+        public string Delete(int? taskId)
+        {
+            if(taskId == null) {
+                return "TaskId is null";
+            }
+
+            if (!repository.RemoveTask(taskId.Value)) {
+                return "Remove error";
+            }
+
+            return "Success";
         }
     }
 }

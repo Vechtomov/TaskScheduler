@@ -1,4 +1,5 @@
 ﻿@using TaskScheduler.Models
+
 @model List<Task>
 @{
     ViewBag.Title = "Задачи";
@@ -35,11 +36,11 @@
         padding: 0;
     }
 
-    .editDelete a{
-        margin-left: 5px;
-        margin-right: 5px;
-        color: black;
-    }
+        .editDelete a {
+            margin-left: 5px;
+            margin-right: 5px;
+            color: black;
+        }
 
     /*.taskEdit, .taskDelete {
         font-size: 2em;
@@ -79,10 +80,55 @@
     </div>
 </div>
 
+<div id="createModal" class="modal fade">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">Создание задачи</h4>
+            </div>
+            @using (Ajax.BeginForm("Create", "Task", new AjaxOptions { HttpMethod = "Post", OnSuccess = "OnCreateSuccess" })) {
+                <div class="modal-body">
+                    @Html.Partial("CreatePartial", new Task())
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                    <button type="submit" class="btn btn-primary">Создать</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<div id="editModal" class="modal fade">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">Редактирование задачи</h4>
+            </div>
+            @using (Ajax.BeginForm("Edit", "Task", new AjaxOptions { HttpMethod = "Post", OnSuccess = "OnEditSuccess" })) {
+                <div class="modal-body">
+                    @Html.Partial("EditPartial", new Task())
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                    <button type="submit" class="btn btn-primary">Обновить</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
 <div class="row">
     <div class="col-md-offset-1 col-md-10">
         <ul id="sortable">
             @foreach (var task in Model) {
+                string taskId = "task" + task.Id.ToString();
                 if (task.ExpirationDate.HasValue) {
                     time = task.ExpirationDate.Value.ToShortTimeString();
                     date = task.ExpirationDate.Value.ToShortDateString();
@@ -100,7 +146,7 @@
                                 <span class="glyphicon glyphicon-th-list"></span>
                             </div>
 
-                            <div class="row task col-md-11 vcenter">
+                            <div id="@taskId" class="row task col-md-11 vcenter">
 
                                 <div class="taskName col-md-2 vcenter">
                                     <p class="text-center">@task.Name</p>
@@ -114,19 +160,21 @@
 
                                 <div class="taskDate col-md-3 vcenter">
                                     <p>
-                                        <span class="glyphicon glyphicon-time"></span> <span>@time</span><br />
-                                        <span class="glyphicon glyphicon-calendar"></span> <span>@date</span><br />
+                                        <span class="glyphicon glyphicon-time"></span> <span class="time">@time</span><br />
+                                        <span class="glyphicon glyphicon-calendar"></span> <span class="date">@date</span><br />
                                     </p>
                                 </div>
+
                                 <div class="taskStatus col-md-3 row vcenter">
                                     <div class="col-md-7">
                                         <p>
                                             @task.Status
                                         </p>
                                     </div>
+
                                     <div class="editDelete col-md-5">
-                                        <a href="#" class="text-center"><span class="taskEdit glyphicon glyphicon-pencil" data-taskId="@task.Id"></span></a>
-                                        <a href="#" class="text-center"><span class="taskDelete glyphicon glyphicon-remove" data-taskId="@task.Id"></span></a>
+                                        <a href="#" data-taskId="@task.Id" class="taskEdit text-center"><span class="glyphicon glyphicon-pencil"></span></a>
+                                        <a href="#" data-taskId="@task.Id" class="taskDelete text-center"><span class="glyphicon glyphicon-remove"></span></a>
                                     </div>
                                 </div>
                             </div>
@@ -138,13 +186,14 @@
             }
         </ul>
 
-        @Html.ActionLink("Добавить задачу", "Create", null, new { @class = "btn btn-primary" })
+        <button type="button" class="createTask btn btn-primary">Создать задачу</button>
     </div>
 </div>
 
 @section scripts{
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    @Scripts.Render("~/Scripts/deleteTask.js")
+    @Scripts.Render("~/Scripts/task.js")
+    @Scripts.Render("~/scripts/jquery.unobtrusive-ajax.min.js")
     <script>
         $(function () {
             $("#sortable").sortable(

@@ -1,5 +1,7 @@
 ﻿//using Ninject;
+using System;
 using System.Data.Entity;
+using System.Data.Entity.Migrations;
 using System.Linq;
 using TaskScheduler.Models;
 
@@ -18,6 +20,10 @@ namespace TaskScheduler.Repository.SqlRepository
                 return false;
             }
 
+            instance.CreationDate = DateTime.Now;
+            instance.Priority = 0;
+            instance.Status = "Не выполнена";
+
             Db.Tasks.Add(instance);
             Db.SaveChanges();
             return true;
@@ -31,8 +37,9 @@ namespace TaskScheduler.Repository.SqlRepository
                 return false;
             }
 
-            //TODO : Update fields for Task
-            Db.Entry(instance).State = EntityState.Modified;
+            //этот способ дает ошибку
+            //Db.Entry(instance).State = EntityState.Modified;
+            Db.Set<Task>().AddOrUpdate(instance);
             Db.SaveChanges();
             return true;
         }
