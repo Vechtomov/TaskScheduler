@@ -1,21 +1,33 @@
 ﻿$(document).ready(function () {
+    $("#sortable").sortable(
+        {
+            cancel: '.task',
+            cursor: 'pointer'
+        }
+    );
+    $("#sortable").disableSelection();
+
     $(".createTask").click(function () {
         $("#createModal").modal('show');
+    });
+
+    $('#editDatetimePicker').datetimepicker({
+        locale: 'ru'
     });
 
     $('body').delegate(".taskEdit", 'click', function () {
         var taskId = +$(this).data('taskid');
 
         var id = "task" + taskId;
-        var name = $("#" + id + " .taskName p").text();
-        var description = $("#" + id + " .taskDescription p").text();
-        var date = $("#" + id + " .date").text();
-        var time = $("#" + id + " .time").text();
+        var name = $("#" + id + " .taskName p").text().trim();
+        var description = $("#" + id + " .taskDescription p").text().trim();
+        var date = $("#" + id + " .taskDate").text().trim();
+        var time = $("#" + id + " .taskTime").text().trim();
 
         $("#editId").val(taskId);
         $("#editName").val(name);
         $("#editDescription").val(description);
-        $("#editDate").val(date + " " + time);
+        $("#editDatetimePicker").val(date + " " + time);
 
         $("#editModal").modal('show');
 

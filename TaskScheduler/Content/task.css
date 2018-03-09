@@ -1,0 +1,55 @@
+﻿.vcenter {
+    display: inline-block;
+    vertical-align: middle;
+    float: none;
+}
+
+#sortable {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.panel-body span.glyphicon, .taskDatetime {
+    font-size: 24px;
+}
+
+.taskName, .taskStatus {
+    font-size: 20px;
+}
+
+.taskStatus {
+    padding-right: 0;
+    margin-right: -15px;
+}
+
+.task, .editDelete {
+    padding: 0;
+}
+
+.editDelete a {
+    margin-left: 5px;
+    margin-right: 5px;
+    color: black;
+}
+
+.panel-body {
+    padding: 5px;
+}
+
+.task p {
+    margin: 0;
+    overflow: auto auto;
+}
+
+.move:hover {
+    cursor: pointer;
+}
+
+.taskDelete:hover {
+    color: red;
+}
+
+.taskEdit:hover {
+    color: blue;
+}

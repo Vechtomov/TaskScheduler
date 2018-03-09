@@ -10,6 +10,7 @@ using TaskScheduler.Repository.SqlRepository;
 
 namespace TaskScheduler.Controllers
 {
+    [Authorize]
     public class TaskController : Controller
     {
         public IRepository repository = new SqlRepository();
@@ -19,6 +20,7 @@ namespace TaskScheduler.Controllers
         //    this.repository = repository;
         //}
         // GET: Task
+        [AllowAnonymous]
         public ActionResult Index()
         {
             if (!User.Identity.IsAuthenticated) {
@@ -30,6 +32,7 @@ namespace TaskScheduler.Controllers
             return View(repository.Tasks.Where(t => t.UserId == userId).ToList());
         }
 
+        [AllowAnonymous]
         public ActionResult NotAuthenticated()
         {
             return View();
@@ -65,6 +68,8 @@ namespace TaskScheduler.Controllers
             if (task == null) {
                 return "Task is null";
             }
+
+            task.UserId = User.Identity.GetUserId();
 
             if (!repository.UpdateTask(task)) {
                 return "Update error";

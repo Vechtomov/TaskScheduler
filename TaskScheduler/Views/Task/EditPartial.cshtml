@@ -4,7 +4,7 @@
 
 <div class="form-horizontal">
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-    <input type="hidden" name="id" id="editId"/>
+    <input type="hidden" name="id" id="editId" />
     <div class="form-group">
         @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
@@ -24,8 +24,7 @@
     <div class="form-group">
         @Html.LabelFor(model => model.ExpirationDate, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            <input type="text" name="ExpirationDate" id="editDate" class="form-control" />
-            @Html.ValidationMessageFor(model => model.ExpirationDate, "", new { @class = "text-danger" })
+            <input type="text" name="ExpirationDate" id="editDatetimePicker" class="form-control" />
         </div>
     </div>
 </div>

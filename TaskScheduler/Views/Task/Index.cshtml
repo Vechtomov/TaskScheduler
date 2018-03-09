@@ -6,58 +6,8 @@
     string time = string.Empty;
     string date = string.Empty;
 }
-<style>
-    .vcenter {
-        display: inline-block;
-        vertical-align: middle;
-        float: none;
-    }
-
-    #sortable {
-        list-style-type: none;
-        margin: 0;
-        padding: 0;
-    }
-
-    span.glyphicon {
-        font-size: 24px;
-    }
-
-    .taskName, .taskStatus, .taskDate {
-        font-size: 24px;
-    }
-
-    .taskStatus {
-        padding-right: 0;
-        margin-right: -15px;
-    }
-
-    .task, .editDelete {
-        padding: 0;
-    }
-
-        .editDelete a {
-            margin-left: 5px;
-            margin-right: 5px;
-            color: black;
-        }
-
-    /*.taskEdit, .taskDelete {
-        font-size: 2em;
-    }*/
-
-    .panel-body {
-        padding: 5px;
-    }
-
-    .task p {
-        margin: 0;
-    }
-
-    .move:hover {
-        cursor: pointer;
-    }
-</style>
+@Styles.Render("~/Content/task.css")
+@Styles.Render("~/Content/bootstrap-datetimepicker.min.css")
 <h1>Мои Задачи</h1>
 
 <div id="deleteModal" class="modal fade">
@@ -158,10 +108,10 @@
                                     </p>
                                 </div>
 
-                                <div class="taskDate col-md-3 vcenter">
+                                <div class="taskDatetime col-md-3 vcenter">
                                     <p>
-                                        <span class="glyphicon glyphicon-time"></span> <span class="time">@time</span><br />
-                                        <span class="glyphicon glyphicon-calendar"></span> <span class="date">@date</span><br />
+                                        <span class="glyphicon glyphicon-time"></span> <span class="taskTime">@time</span><br />
+                                        <span class="glyphicon glyphicon-calendar"></span> <span class="taskDate">@date</span><br />
                                     </p>
                                 </div>
 
@@ -191,18 +141,15 @@
 </div>
 
 @section scripts{
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    @Scripts.Render("https://code.jquery.com/ui/1.12.1/jquery-ui.js")
     @Scripts.Render("~/Scripts/task.js")
-    @Scripts.Render("~/scripts/jquery.unobtrusive-ajax.min.js")
-    <script>
-        $(function () {
-            $("#sortable").sortable(
-                {
-                    cancel: '.task',
-                    cursor: 'move'
-                }
-            );
-            $("#sortable").disableSelection();
-        });
-    </script>
+    @Scripts.Render("~/Scripts/jquery.unobtrusive-ajax.min.js")
+    @Scripts.Render("~/Scripts/moment-with-locales.js")
+    @Scripts.Render("~/Scripts/bootstrap-datetimepicker.min.js")
+
+    @*<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        <script type="text/javascript" src="/scripts/jquery.min.js"></script>
+        <script type="text/javascript" src="/scripts/moment.min.js"></script>
+        <script type="text/javascript" src="/scripts/bootstrap.min.js"></script>
+        <script type="text/javascript" src="~/scripts/bootstrap-datetimepicker.min.js"></script>*@
 }
