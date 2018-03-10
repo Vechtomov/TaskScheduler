@@ -1,0 +1,17 @@
+﻿@{
+    ViewBag.Title = "Не авторизован";
+}
+
+<div class="row">
+    <h1>Цели</h1>
+    <h3>Здесь вы сможете:</h3>
+    <ul>
+        <li><p>Создавать цели, которые вам нужно достичь</p></li>
+        <li><p>Следить за своим прогрессом при движении к поставленной цели</p></li>
+        <li><p>Писать, что вы делаете для достижения своей цели</p></li>
+    </ul>
+    <p>
+        Чтобы приступить к созданию целей @Html.ActionLink("авторизуйтесь", "Login", "Account", new { returnUrl = "/Goal/Index" }, null)
+        или @Html.ActionLink("зарегистрируйтесь", "Register", "Account", new { returnUrl = "/Goal/Index" }, null)
+    </p>
+</div>

@@ -21,19 +21,21 @@ namespace AspNetIdentityApp.Controllers
             }
         }
 
-        public ActionResult Register()
+        public ActionResult Register(string returnUrl)
         {
+            ViewBag.returnUrl = returnUrl;
             return View();
         }
 
         [HttpPost]
-        public async Task<ActionResult> Register(RegisterModel model)
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Register(RegisterModel model, string returnUrl)
         {
             if (ModelState.IsValid) {
                 ApplicationUser user = new ApplicationUser { UserName = model.Email, Email = model.Email };
                 IdentityResult result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded) {
-                    return RedirectToAction("Login", "Account");
+                    return RedirectToAction("Login", "Account", new {  returnUrl });
                 }
                 else {
                     foreach (string error in result.Errors) {

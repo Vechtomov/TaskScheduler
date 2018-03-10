@@ -188,6 +188,7 @@
     <Compile Include="Controllers\GoalController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\MotivationController.cs" />
     <Compile Include="Controllers\ProjectController.cs" />
     <Compile Include="Controllers\TaskController.cs" />
     <Compile Include="Global.asax.cs">
@@ -212,6 +213,14 @@
     <Compile Include="Migrations\201803071957394_DateTimeUpdateMigration.cs" />
     <Compile Include="Migrations\201803071957394_DateTimeUpdateMigration.Designer.cs">
       <DependentUpon>201803071957394_DateTimeUpdateMigration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201803101850157_ChangeModels.cs" />
+    <Compile Include="Migrations\201803101850157_ChangeModels.Designer.cs">
+      <DependentUpon>201803101850157_ChangeModels.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201803101853532_AddedRequirements.cs" />
+    <Compile Include="Migrations\201803101853532_AddedRequirements.Designer.cs">
+      <DependentUpon>201803101853532_AddedRequirements.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Goal.cs" />
@@ -285,12 +294,9 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
-    <Content Include="Views\Account\GetLogin.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Manage\Index.cshtml" />
     <Content Include="Views\Task\Index.cshtml" />
@@ -298,11 +304,15 @@
     <Content Include="Views\Task\Create.cshtml" />
     <Content Include="Views\Task\CreatePartial.cshtml" />
     <Content Include="Views\Task\EditPartial.cshtml" />
+    <Content Include="Views\Goal\Index.cshtml" />
+    <Content Include="Views\Goal\NotAuthenticated.cshtml" />
+    <Content Include="Views\Project\Index.cshtml" />
+    <Content Include="Views\Project\NotAuthenticated.cshtml" />
+    <Content Include="Views\Motivation\Index.cshtml" />
+    <Content Include="Views\Goal\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Goal\" />
-    <Folder Include="Views\Project\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -323,6 +333,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201803071957394_DateTimeUpdateMigration.resx">
       <DependentUpon>201803071957394_DateTimeUpdateMigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201803101850157_ChangeModels.resx">
+      <DependentUpon>201803101850157_ChangeModels.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201803101853532_AddedRequirements.resx">
+      <DependentUpon>201803101853532_AddedRequirements.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

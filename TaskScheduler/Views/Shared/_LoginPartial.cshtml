@@ -1,9 +1,7 @@
 ﻿@using Microsoft.AspNet.Identity
 @if (Request.IsAuthenticated) {
-    @*@using (Html.BeginForm("Logout", "Account", null, FormMethod.Post, htmlAttributes: new { id = "logout" })) {*@
         <ul class="nav navbar-nav navbar-right">
             <li>@Html.ActionLink(User.Identity.GetUserName(), "Index", "Manage")</li>
-            @*<li><a href="javascript: document.GetElementById('logout').submit()">Log off</a></li>*@
             <li>@Html.ActionLink("Выход", "Logout", "Account", new { returnUrl = Request.Url}, null)</li>
         </ul>
     //}

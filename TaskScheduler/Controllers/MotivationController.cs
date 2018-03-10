@@ -2,8 +2,9 @@
 
 namespace TaskScheduler.Controllers
 {
-    public class HomeController : Controller
+    public class MotivationController : Controller
     {
+        // GET: Motivation
         public ActionResult Index()
         {
             return View();

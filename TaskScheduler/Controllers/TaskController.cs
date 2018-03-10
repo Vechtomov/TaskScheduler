@@ -1,8 +1,5 @@
 ﻿using Microsoft.AspNet.Identity;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using TaskScheduler.Models;
 using TaskScheduler.Repository;
@@ -29,18 +26,16 @@ namespace TaskScheduler.Controllers
 
             string userId = User.Identity.GetUserId();
 
-            return View(repository.Tasks.Where(t => t.UserId == userId).ToList());
+            return View(repository.Tasks.Where(t => t.UserId == userId).OrderBy(t => t.ExpirationDate).ToList());
         }
 
         [AllowAnonymous]
         public ActionResult NotAuthenticated()
         {
-            return View();
-        }
+            if (User.Identity.IsAuthenticated) {
+                return RedirectToAction("Index");
+            }
 
-
-        public ActionResult Create()
-        {
             return View();
         }
 

@@ -1,20 +1,10 @@
-﻿.vcenter {
-    display: inline-block;
-    vertical-align: middle;
-    float: none;
-}
-
-#sortable {
+﻿#sortable {
     list-style-type: none;
     margin: 0;
     padding: 0;
 }
 
-.panel-body span.glyphicon, .taskDatetime {
-    font-size: 24px;
-}
-
-.taskName, .taskStatus {
+.panel-body span.glyphicon, .taskDatetime, .taskName, .taskStatus {
     font-size: 20px;
 }
 
@@ -23,7 +13,7 @@
     margin-right: -15px;
 }
 
-.task, .editDelete {
+.task, .editDelete, .rightColumn, .taskDatetime, .taskStatus{
     padding: 0;
 }
 
@@ -39,11 +29,14 @@
 
 .task p {
     margin: 0;
-    overflow: auto auto;
 }
 
 .move:hover {
     cursor: pointer;
+}
+
+.taskComplete:hover {
+    color: green;
 }
 
 .taskDelete:hover {
@@ -52,4 +45,47 @@
 
 .taskEdit:hover {
     color: blue;
+}
+
+.tasks {
+    padding-right: 0;
+    box-sizing: border-box;
+}
+
+.taskDatetime {
+    width: 35%;
+}
+
+.taskStatus {
+    font-size: 18px;
+    text-transform: uppercase;
+    width: 40%;
+}
+
+.editDelete {
+    text-align: right;
+    width: 25%;
+}
+
+.taskDescription {
+    padding-right: 30px;
+}
+
+.task {
+    width: 93%;
+}
+
+.taskName {
+    text-transform: uppercase;
+    font-size: 18px;
+    width: 15%;
+}
+
+.taskName, .taskDescription, .taskStatus {
+    word-wrap: break-word;
+}
+
+.createTask {
+    margin-left: -15px;
+    margin-bottom: 20px;
 }

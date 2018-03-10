@@ -5,6 +5,7 @@
 <div class="form-horizontal">
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
     <input type="hidden" name="id" id="editId" />
+    <input type="hidden" name="status" id="editStatus" />
     <div class="form-group">
         @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">

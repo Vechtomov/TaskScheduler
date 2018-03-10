@@ -9,6 +9,8 @@ namespace TaskScheduler.Models
     public class Task
     {
         public int Id { get; set; }
+
+        [Required]
         [Display(Name = "Название")]
         public string Name { get; set; }
 

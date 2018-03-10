@@ -1,4 +1,5 @@
 ﻿$(document).ready(function () {
+
     $("#sortable").sortable(
         {
             cancel: '.task',
@@ -8,13 +9,21 @@
     $("#sortable").disableSelection();
 
     $(".createTask").click(function () {
+        $('#createDatetimePicker').data("DateTimePicker").minDate($('#createDatetimePicker').data("DateTimePicker").date());
+
         $("#createModal").modal('show');
+    });
+
+    $('#createDatetimePicker').datetimepicker({
+        locale: 'ru'
     });
 
     $('#editDatetimePicker').datetimepicker({
         locale: 'ru'
     });
 
+
+    // Редактирование задачи
     $('body').delegate(".taskEdit", 'click', function () {
         var taskId = +$(this).data('taskid');
 
@@ -23,34 +32,21 @@
         var description = $("#" + id + " .taskDescription p").text().trim();
         var date = $("#" + id + " .taskDate").text().trim();
         var time = $("#" + id + " .taskTime").text().trim();
+        var status = $("#" + id + " .taskStatus p").text().trim();
+
+        $('#editDatetimePicker').data("DateTimePicker").minDate($('#editDatetimePicker').data("DateTimePicker").date());
 
         $("#editId").val(taskId);
         $("#editName").val(name);
         $("#editDescription").val(description);
         $("#editDatetimePicker").val(date + " " + time);
+        $("#editStatus").val(status);
 
         $("#editModal").modal('show');
-
-        //$("#editModal .modal-footer .btn-primary").click(function () {
-            
-
-        //    $.ajax({
-        //        url: "/Task/Edit",
-        //        data: {
-        //            taskId: id
-        //        },
-        //        type: 'POST',
-        //        success: function (data) {
-
-        //            $("#deleteModal").modal('hide');
-
-        //            if (data == "Success")
-        //                location.reload();
-        //        }
-        //    });
-        //});
     });
 
+
+    // Удаление задачи
     $('body').delegate(".taskDelete", 'click',function () {
         var id = +$(this).data('taskid');
 
@@ -63,8 +59,12 @@
                     taskId: id
                 },
                 type: 'POST',
+                complete: function (data) {
+                    alert("Запрос отправлен.");
+                    $("#deleteModal").prop("disabled", true);
+                },
                 success: function (data) {
-
+                    $("#deleteModal").prop("disabled", false);
                     $("#deleteModal").modal('hide');
 
                     if(data == "Success")
@@ -76,6 +76,7 @@
 });
 
 function OnCreateSuccess(data) {
+    $("#createModal .btn-primary").prop("disabled", false);
     $("#createModal").modal('hide');
 
     if (data == 'Success') {
@@ -84,9 +85,20 @@ function OnCreateSuccess(data) {
 }
 
 function OnEditSuccess(data) {
+    $("#editModal .btn-primary").prop("disabled", false);
     $("#editModal").modal('hide');
 
     if (data == 'Success') {
         location.reload();
     }
+}
+
+function OnCreateComplete() {
+    alert("Запрос отправлен.");
+    $("#createModal .btn-primary").prop("disabled", true);
+}
+
+function OnEditComplete() {
+    alert("Запрос отправлен.");
+    $("#editModal .btn-primary").prop("disabled", true);
 }

@@ -7,6 +7,7 @@ namespace TaskScheduler.ViewModel
     {
         [Required]
         [Display(Name = "Электронная почта")]
+        [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
         
         [Required]
@@ -25,6 +26,7 @@ namespace TaskScheduler.ViewModel
     {
         [Required]
         [Display(Name = "Электронная почта")]
+        [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
 
         [Required]
@@ -45,18 +47,18 @@ namespace TaskScheduler.ViewModel
         public string PasswordConfirm { get; set; }
     }
 
-    public class TaskViewModel
-    {
-        public int Id { get; set; }
-        [Display(Name = "Название")]
-        public string Name { get; set; }
+    //public class TaskViewModel
+    //{
+    //    public int Id { get; set; }
+    //    [Display(Name = "Название")]
+    //    public string Name { get; set; }
 
-        [Display(Name = "Описание")]
-        public string Description { get; set; }
+    //    [Display(Name = "Описание")]
+    //    public string Description { get; set; }
 
-        public int? Priority { get; set; }
+    //    public int? Priority { get; set; }
 
-        [Display(Name = "Дата окончания")]
-        public DateTime? ExpirationDate { get; set; }
-    }
+    //    [Display(Name = "Дата окончания")]
+    //    public DateTime? ExpirationDate { get; set; }
+    //}
 }

@@ -1,0 +1,17 @@
+﻿@{
+    ViewBag.Title = "Не авторизован";
+}
+
+<div class="row">
+    <h1>Проекты</h1>
+    <h3>Здесь вы сможете:</h3>
+    <ul>
+        <li><p>Участвовать в своих и чужих проектах</p></li>
+        <li><p>Распределять задачи между участниками проекта</p></li>
+        <li><p>Следить за ходом реализации проекта</p></li>
+    </ul>
+    <p>
+        Чтобы приступить к участию в проектах @Html.ActionLink("авторизуйтесь", "Login", "Account", new { returnUrl = "/Project/Index" }, null)
+        или @Html.ActionLink("зарегистрируйтесь", "Register", "Account", new { returnUrl = "/Project/Index" }, null)
+    </p>
+</div>

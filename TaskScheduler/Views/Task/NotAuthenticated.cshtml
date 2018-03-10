@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "NotAuthenticated";
+    ViewBag.Title = "Не авторизован";
 }
 
 <div class="row">
@@ -10,6 +10,6 @@
         <li><p>Размещать эти задачи в соответствии с их приоритетом важности</p></li>
         <li><p>Контролировать ход выполнения задач</p></li>
     </ul>
-    <p>Чтобы приступить к созданию задач @Html.ActionLink("авторизуйтесь", "Login", "Account") или @Html.ActionLink("зарегистрируйтесь", "Register", "Account")</p>
+    <p>Чтобы приступить к созданию задач @Html.ActionLink("авторизуйтесь", "Login", "Account", new { returnUrl = Request.Url }, null)
+    или @Html.ActionLink("зарегистрируйтесь", "Register", "Account", new { returnUrl = Request.Url }, null)</p>
 </div>
-
