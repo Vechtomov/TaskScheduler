@@ -185,6 +185,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\DecideController.cs" />
     <Compile Include="Controllers\GoalController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -265,8 +266,10 @@
     <Content Include="Scripts\bootstrap-datetimepicker.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\date-diff.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
+    <Content Include="Scripts\moment-duration-format.js" />
     <Content Include="Scripts\moment-with-locales.js" />
     <Content Include="Scripts\moment-with-locales.min.js" />
     <Content Include="Scripts\moment.js" />
@@ -310,6 +313,7 @@
     <Content Include="Views\Project\NotAuthenticated.cshtml" />
     <Content Include="Views\Motivation\Index.cshtml" />
     <Content Include="Views\Goal\Create.cshtml" />
+    <Content Include="Views\Decide\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

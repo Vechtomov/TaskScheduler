@@ -25,7 +25,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Нет</button>
-                <button type="button" class="btn btn-primary">Да</button>
+                <button type="button" class="btn btn-primary" data-loading-text="Удаление...">Да</button>
             </div>
         </div>
     </div>
@@ -40,13 +40,13 @@
                 </button>
                 <h4 class="modal-title">Создание задачи</h4>
             </div>
-            @using (Ajax.BeginForm("Create", "Task", new AjaxOptions { HttpMethod = "Post", OnSuccess = "OnCreateSuccess", OnComplete = "OnCreateComplete" })) {
+            @using (Ajax.BeginForm("Create", "Task", new AjaxOptions { HttpMethod = "Post", OnSuccess = "OnCreateSuccess", OnBegin = "BeforeCreateSend", OnComplete = "OnCreateComplete" })) {
                 <div class="modal-body">
                     @Html.Partial("CreatePartial", new Task())
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
-                    <button type="submit" class="btn btn-primary">Создать</button>
+                    <button type="submit" class="btn btn-primary" data-loading-text="Создание...">Создать</button>
                 </div>
             }
         </div>
@@ -62,13 +62,13 @@
                 </button>
                 <h4 class="modal-title">Редактирование задачи</h4>
             </div>
-            @using (Ajax.BeginForm("Edit", "Task", new AjaxOptions { HttpMethod = "Post", OnSuccess = "OnEditSuccess", OnComplete = "OnEditComplete" })) {
+            @using (Ajax.BeginForm("Edit", "Task", new AjaxOptions { HttpMethod = "Post", OnSuccess = "OnEditSuccess", OnBegin = "BeforeEditSend", OnComplete = "OnEditComplete" })) {
                 <div class="modal-body">
                     @Html.Partial("EditPartial", new Task())
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
-                    <button type="submit" class="btn btn-primary">Обновить</button>
+                    <button type="submit" class="btn btn-primary" data-loading-text="Обновление...">Обновить</button>
                 </div>
             }
         </div>
@@ -83,63 +83,65 @@
 
         <ul id="sortable">
             @foreach (var task in Model) {
-            string taskId = "task" + task.Id.ToString();
-            if (task.ExpirationDate.HasValue) {
-                time = task.ExpirationDate.Value.ToShortTimeString();
-                date = task.ExpirationDate.Value.ToShortDateString();
-            }
-            else {
-                time = string.Empty;
-                date = string.Empty;
-            }
+                string taskId = "task" + task.Id.ToString();
+                if (task.ExpirationDate.HasValue) {
+                    time = task.ExpirationDate.Value.ToShortTimeString();
+                    date = task.ExpirationDate.Value.ToShortDateString();
+                }
+                else {
+                    time = string.Empty;
+                    date = string.Empty;
+                }
 
-            <li class="ui-state-default">
-                <div class="row panel panel-default">
-                    <div class="panel-body">
+                string classString = task.Status == "Просрочена" ? "overdue" : "";
 
-                        <div class="col-md-1 text-center vcenter move">
-                            <span class="glyphicon glyphicon-th-list"></span>
-                        </div>
+                <li class="ui-state-default">
+                    <div class="row panel panel-default">
+                        <div class="panel-body @classString">
 
-                        <div id="@taskId" class="row task col-md-11 vcenter">
-
-                            <div class="taskName col-md-2 vcenter">
-                                <p class="text-center">@task.Name</p>
+                            <div class="col-md-1 text-center vcenter move">
+                                <span class="glyphicon glyphicon-th-list"></span>
                             </div>
 
-                            <div class="taskDescription col-md-4 vcenter">
-                                <p>
-                                    @task.Description
-                                </p>
-                            </div>
+                            <div id="@taskId" class="row task col-md-11 vcenter">
 
-                            <div class="row col-md-6 vcenter rightColumn">
-                                <div class="taskDatetime col-md-6 vcenter">
+                                <div class="taskName col-md-2 vcenter">
+                                    <p class="text-center">@task.Name</p>
+                                </div>
+
+                                <div class="taskDescription col-md-4 vcenter">
                                     <p>
-                                        <span class="glyphicon glyphicon-time"></span> <span class="taskTime">@time</span><br />
-                                        <span class="glyphicon glyphicon-calendar"></span> <span class="taskDate">@date</span><br />
+                                        @task.Description
                                     </p>
                                 </div>
 
-                                <div class="taskStatus col-md-3 vcenter">
-                                    <p>
-                                        @task.Status
-                                    </p>
-                                </div>
+                                <div class="row col-md-6 vcenter rightColumn">
+                                    <div class="taskDatetime col-md-6 vcenter">
+                                        <p>
+                                            <span class="glyphicon glyphicon-time"></span> <span class="taskTime">@time</span><br />
+                                            <span class="glyphicon glyphicon-calendar"></span> <span class="taskDate">@date</span><br />
+                                        </p>
+                                    </div>
 
-                                <div class="editDelete col-md-3 vcenter">
-                                    <a href="#" data-taskId="@task.Id" class="taskComplete text-center"><span class="glyphicon glyphicon-ok"></span></a>
-                                    <a href="#" data-taskId="@task.Id" class="taskEdit text-center"><span class="glyphicon glyphicon-pencil"></span></a>
-                                    <a href="#" data-taskId="@task.Id" class="taskDelete text-center"><span class="glyphicon glyphicon-remove"></span></a>
+                                    <div class="taskStatus col-md-3 vcenter">
+                                        <p>
+                                            @task.Status
+                                        </p>
+                                    </div>
+
+                                    <div class="editDelete col-md-3 vcenter">
+                                        <span data-taskId="@task.Id" class="taskComplete text-center"><span class="glyphicon glyphicon-ok"></span></span>
+                                        <span data-taskId="@task.Id" class="taskEdit text-center"><span class="glyphicon glyphicon-pencil"></span></span>
+                                        <span data-taskId="@task.Id" class="taskDelete text-center"><span class="glyphicon glyphicon-remove"></span></span>
+                                    </div>
                                 </div>
                             </div>
+
                         </div>
 
                     </div>
-
-                </div>
-            </li>
-    }
+                </li>
+            }
         </ul>
 
     </div>
@@ -156,4 +158,5 @@
     @Scripts.Render("~/Scripts/jquery.unobtrusive-ajax.min.js")
     @Scripts.Render("~/Scripts/moment-with-locales.js")
     @Scripts.Render("~/Scripts/bootstrap-datetimepicker.min.js")
+    @Scripts.Render("~/bundles/jqueryval")
 }

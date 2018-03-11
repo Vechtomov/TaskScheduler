@@ -37,14 +37,17 @@
 
 .taskComplete:hover {
     color: green;
+    cursor: pointer;
 }
 
 .taskDelete:hover {
     color: red;
+    cursor: pointer;
 }
 
 .taskEdit:hover {
     color: blue;
+    cursor: pointer;
 }
 
 .tasks {
@@ -76,7 +79,6 @@
 }
 
 .taskName {
-    text-transform: uppercase;
     font-size: 18px;
     width: 15%;
 }
@@ -88,4 +90,20 @@
 .createTask {
     margin-left: -15px;
     margin-bottom: 20px;
+}
+
+.overdue {
+    border: 1px solid red;
+}
+
+.overdue .taskStatus {
+    color: red;
+}
+
+.overdue .taskComplete, .overdue .taskEdit {
+    color: gray;
+}
+
+.overdue .taskComplete:hover, .overdue .taskEdit:hover {
+    cursor: default;
 }

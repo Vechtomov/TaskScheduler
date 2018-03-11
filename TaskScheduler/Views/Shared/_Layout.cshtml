@@ -25,6 +25,7 @@
                     <li>@Html.ActionLink("Цели", "Index", "Goal")</li>
                     <li>@Html.ActionLink("Проекты", "Index", "Project")</li>
                     <li>@Html.ActionLink("Мотивация", "Index", "Motivation")</li>
+                    <li>@Html.ActionLink("Принятие решений", "Index", "Decide")</li>
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
@@ -42,7 +43,7 @@
     </footer>
 
     @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
+    @Scripts.Render("~/bundles/bootstrap")
 </body>
 </html>

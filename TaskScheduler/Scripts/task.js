@@ -1,5 +1,114 @@
 ﻿$(document).ready(function () {
+    InitSortable();
 
+    InitDatetimePickers();
+
+    InitHandlers();
+
+    Timer(10000);
+});
+
+
+// Эти методы используются хелперами
+function BeforeCreateSend() {
+    $("#createModal .btn-primary").button('loading');
+}
+
+function BeforeEditSend() {
+    $("#editModal .btn-primary").button('loading');
+}
+
+function OnCreateSuccess(data) {
+    $("#createModal .btn-primary").button('reset');
+    $("#createModal").modal('hide');
+
+    if (data != "Success") {
+        alert(data);
+    } else {
+        location.reload();
+    }
+}
+
+function OnEditSuccess(data) {
+    if (data != "Success") {
+        alert(data);
+    } else {
+        location.reload();
+    }
+}
+
+function OnCreateComplete() {
+    $("#createModal .btn-primary").button('reset');
+    $("#createModal").modal('hide');
+}
+
+function OnEditComplete() {
+    $("#editModal .btn-primary").button('reset');
+    $("#editModal").modal('hide');
+}
+
+// Таймер для проверки времени задач
+function Timer(interval) {
+    var timerId = setTimeout(function tick() {
+        var ids = $('.task');
+        var times = $('.task .taskTime');
+        var dates = $('.task .taskDate');
+
+        var date = new Array(dates.length);
+
+        for (var i = 0; i < dates.length; i++) {
+            var day = dates[i].innerText.substring(0, 2);
+            var month = dates[i].innerText.substring(3, 5) - 1;
+            var year = dates[i].innerText.substring(6);
+            var hours = times[i].innerText.substring(0, 2);
+            var minutes = times[i].innerText.substring(3);
+
+            var date = new Date(year, month, day, hours, minutes);
+
+            if ((date - new Date()) < 0) {
+                var id = ids[i].id.substring(4);
+                var status = $("#task" + id + " .taskStatus p").text().trim();
+
+                if (status == 'Просрочена') {
+                    continue;
+                }
+
+                TimeIsOverHandler(id);
+            }
+        }
+
+        timerId = setTimeout(tick, interval);
+    }, interval);
+}
+
+// Обработчик просроченной задачи
+function TimeIsOverHandler(id) {
+    $.ajax({
+        url: "/Task/UpdateTask",
+        type: "POST",
+        data: {
+            taskId: +id
+        }
+    }).done(function (data) {
+        if (data == "Success") {
+
+            location.reload();
+
+            
+        }
+        else {
+            alert(data);
+        }
+    }).fail(function () {
+        alert("fail");
+    });
+
+    
+}
+
+
+// Сортируемый список
+function InitSortable() {
     $("#sortable").sortable(
         {
             cancel: '.task',
@@ -7,13 +116,10 @@
         }
     );
     $("#sortable").disableSelection();
+}
 
-    $(".createTask").click(function () {
-        $('#createDatetimePicker').data("DateTimePicker").minDate($('#createDatetimePicker').data("DateTimePicker").date());
-
-        $("#createModal").modal('show');
-    });
-
+// DatetimePickers
+function InitDatetimePickers() {
     $('#createDatetimePicker').datetimepicker({
         locale: 'ru'
     });
@@ -21,7 +127,27 @@
     $('#editDatetimePicker').datetimepicker({
         locale: 'ru'
     });
+}
 
+// Обработчики
+function InitHandlers() {
+    // Отрисовка задач
+    //var ids = $(".task");
+    //for (var i = 0; i < ids.length; i++) {
+    //    var id = ids[i].id.substring(4);
+    //    var status = $("#task" + id + " .taskStatus p").text().trim();
+
+    //    if (status == 'Просрочена') {
+    //        $("#task" + id).parent().addClass('overdue');
+    //    }
+    //}
+    
+    // Создание задачи
+    $(".createTask").click(function () {
+        $('#createDatetimePicker').data("DateTimePicker").minDate($('#createDatetimePicker').data("DateTimePicker").date());
+
+        $("#createModal").modal('show');
+    });
 
     // Редактирование задачи
     $('body').delegate(".taskEdit", 'click', function () {
@@ -47,58 +173,36 @@
 
 
     // Удаление задачи
-    $('body').delegate(".taskDelete", 'click',function () {
+    $('body').delegate(".taskDelete", 'click', function () {
         var id = +$(this).data('taskid');
 
         $("#deleteModal").modal('show');
+        $("#deleteModal").on('shown.bs.modal', function () {
+            $("#deleteModal .btn-primary").focus();
+        });
 
-        $("#deleteModal .modal-footer .btn-primary").click(function () {
+        $("#deleteModal .btn-primary").click(function () {
+            var btn = $(this);
+
+            btn.button('loading');
             $.ajax({
                 url: "/Task/Delete",
                 data: {
                     taskId: id
                 },
                 type: 'POST',
-                complete: function (data) {
-                    alert("Запрос отправлен.");
-                    $("#deleteModal").prop("disabled", true);
-                },
                 success: function (data) {
-                    $("#deleteModal").prop("disabled", false);
                     $("#deleteModal").modal('hide');
 
-                    if(data == "Success")
+                    if (data != "Success") {
+                        alert(data);
+                    } else {
                         location.reload();
+                    }
                 }
+            }).always(function () {
+                btn.button('reset');
             });
         });
     });
-});
-
-function OnCreateSuccess(data) {
-    $("#createModal .btn-primary").prop("disabled", false);
-    $("#createModal").modal('hide');
-
-    if (data == 'Success') {
-        location.reload();
-    }
-}
-
-function OnEditSuccess(data) {
-    $("#editModal .btn-primary").prop("disabled", false);
-    $("#editModal").modal('hide');
-
-    if (data == 'Success') {
-        location.reload();
-    }
-}
-
-function OnCreateComplete() {
-    alert("Запрос отправлен.");
-    $("#createModal .btn-primary").prop("disabled", true);
-}
-
-function OnEditComplete() {
-    alert("Запрос отправлен.");
-    $("#editModal .btn-primary").prop("disabled", true);
 }

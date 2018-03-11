@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNet.Identity;
+using System;
 using System.Linq;
 using System.Web.Mvc;
 using TaskScheduler.Models;
@@ -82,6 +83,28 @@ namespace TaskScheduler.Controllers
 
             if (!repository.RemoveTask(taskId.Value)) {
                 return "Remove error";
+            }
+
+            return "Success";
+        }
+
+        [HttpPost]
+        public string UpdateTask(int? taskId)
+        {
+            if (taskId == null) {
+                return "TaskId is null";
+            }
+
+            Task task = repository.Tasks.FirstOrDefault(t => t.Id == taskId);
+
+            if(task == null) {
+                return "Task is null";
+            }
+
+            task.Status = "Просрочена";
+
+            if (!repository.UpdateTask(task)) {
+                return "Cannot update task ( ._.)";
             }
 
             return "Success";
